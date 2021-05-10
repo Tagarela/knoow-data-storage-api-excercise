@@ -12,6 +12,8 @@ class App {
   static createApplication () {
     const application = express()
     application.set('port', config.port)
+    application.set('mode', config.env)
+    application.use(express.json({ limit: '50mb' }))
     application.use(router)
     return application
   }

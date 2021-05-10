@@ -6,7 +6,7 @@ app.listen(app.get('port'), () => {
     console.log('Unhandled Rejection:', exception)
     process.exit(1)
   })
-  console.log(`App is running at http://localhost:${app.get('port')} in ${process.env.NODE_ENV} mode`)
+  console.log(`App is running at http://localhost:${app.get('port')} in ${app.get('mode')} mode`)
 })
 
 // module.exports = server
