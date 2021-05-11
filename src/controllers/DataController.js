@@ -5,11 +5,21 @@ const { dataStore } = require('../components/data-store/DataStore')
  * Data controller class
  */
 class DataController {
+  /**
+   * Upload Object logic
+   *
+   * @param { Object } req
+   * @param { Object } res
+   *
+   * @returns {Promise<*>}
+   */
   static async uploadObject(req, res) {
     const body = HttpHelper.getBodyFromRequest(req)
     /*** Prepare data ***/
     const dataObject = DataHelper.generateDataObject(body)
-    await dataStore.save(dataObject)
+    dataObject.repository = req.params.repository
+    const resu = await dataStore.save(dataObject)
+    console.log(resu)
     return res.status(201).json(DataTransformer.formatDataResponseObject(dataObject))
   }
 }

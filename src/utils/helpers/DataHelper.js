@@ -23,7 +23,8 @@ class DataHelper {
     const dataObject = {
       oid: DataHelper.generateObjectId(),
       hash: ObjectHelper.generateObjectHash(data),
-      data: data
+      data: data,
+      version: 'v1'
     }
     return dataObject
   }
