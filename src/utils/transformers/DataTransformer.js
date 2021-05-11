@@ -14,7 +14,6 @@ class DataTransformer {
       size: ObjectHelper.getObjectSize(data),
       data: data
     }
-
     return response
   }
 }
