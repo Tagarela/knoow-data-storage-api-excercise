@@ -8,8 +8,8 @@ class DataController {
   /**
    * Upload Object logic
    *
-   * @param { Object } req
-   * @param { Object } res
+   * @param Object req
+   * @param Object res
    *
    * @returns {Promise<*>}
    */
@@ -18,8 +18,7 @@ class DataController {
     /*** Prepare data ***/
     const dataObject = DataHelper.generateDataObject(body)
     dataObject.repository = req.params.repository
-    const resu = await dataStore.save(dataObject)
-    console.log(resu)
+    await dataStore.save(dataObject)
     return res.status(201).json(DataTransformer.formatDataResponseObject(dataObject))
   }
 }

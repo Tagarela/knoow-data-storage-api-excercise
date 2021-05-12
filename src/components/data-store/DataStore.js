@@ -21,7 +21,7 @@ class DataStore {
   /**
    * Save data object
    *
-   * @param obj
+   * @param Object obj
    *
    * @returns {Promise<*|SaveStatus|void>}
    */

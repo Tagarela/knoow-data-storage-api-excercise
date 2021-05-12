@@ -14,8 +14,9 @@ class RedisProvider extends DataStoreProviderAbstract {
   /**
    * Generate redis key
    *
-   * @param { Object } data
-   * @returns {string}
+   * @param Object data
+   *
+   * @returns string
    */
   static generateDataRedisKey(data) {
     if (!data.repository || !data.oid || !data.hash) {
@@ -28,7 +29,7 @@ class RedisProvider extends DataStoreProviderAbstract {
   /**
    * Save Data
    *
-   * @param { Object } data
+   * @param Object data
    *
    * @returns {Promise<void>}
    */

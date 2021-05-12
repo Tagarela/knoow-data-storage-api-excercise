@@ -7,7 +7,7 @@ class HttpHelper {
    *
    * @param event
    *
-   * @returns {any}
+   * @returns Object
    */
   static getBodyFromRequest(req) {
     return req.body

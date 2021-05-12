@@ -7,7 +7,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "jest test/test.js",
+    "test": "jest test/test.js --detectOpenHandles",
     "test-watch": "jest --watch --notify --notifyMode=change test/test.js",
     "lint": "eslint ./src"
   },

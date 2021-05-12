@@ -17,7 +17,7 @@ class DataHelper {
   /**
    * Generate data object
    *
-   * @param { Object } data
+   * @param Object data
    */
   static generateDataObject (data) {
     const dataObject = {

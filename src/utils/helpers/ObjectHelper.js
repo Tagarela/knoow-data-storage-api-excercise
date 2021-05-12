@@ -8,7 +8,7 @@ class ObjectHelper {
   /**
    * Get all object properties
    *
-   * @param { Object } obj
+   * @param Object obj
    *
    * @returns [String]
    */
@@ -28,9 +28,9 @@ class ObjectHelper {
    * Calculate Object size
    *
    * @param seen
-   * @param { Object } object
+   * @param Object object
    *
-   * @returns { number }
+   * @returns number
    */
   static sizeOfObject (seen, object) {
     if (object == null) {
@@ -65,7 +65,7 @@ class ObjectHelper {
   /**
    * Get function for calculating size
    *
-   * @param { Object } seen
+   * @param Object seen
    *
    * @returns {function(*=): (*)}
    */
@@ -102,7 +102,7 @@ class ObjectHelper {
   /**
    * Get Object size
    *
-   * @param { Object } object
+   * @param Object object
    *
    * @returns {*}
    */
@@ -115,7 +115,7 @@ class ObjectHelper {
    *
    * @param obj
    *
-   * @returns { Object }
+   * @returns Object
    */
   static sortObject(object){
     const sortedObj = {}, keys = Object.keys(object)
@@ -139,9 +139,11 @@ class ObjectHelper {
   }
 
   /**
-   * Hash Objject
-   * @param obj
-   * @returns {string}
+   * Hash Object
+   *
+   * @param Object obj
+   *
+   * @returns string
    */
   static generateObjectHash (obj) {
     const sortObj = ObjectHelper.sortObject(obj)
