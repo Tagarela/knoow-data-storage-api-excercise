@@ -6,9 +6,24 @@ const { UnprocessableError } = require('../../../utils/http-errors')
  * Redis Provider
  */
 class RedisProvider extends DataStoreProviderAbstract {
+  /**
+   * constructor
+   */
   constructor() {
     super();
     this.service = new RedisService()
+  }
+
+  /**
+   * Check object exist
+   *
+   * @param Object dataObject
+   *
+   * @returns {Promise<boolean>}
+   */
+  async existDataObject(dataObject) {
+    const data = await this.get(dataObject)
+    return data.length !== 0 ? true : false
   }
 
   /**
@@ -52,35 +67,20 @@ class RedisProvider extends DataStoreProviderAbstract {
   }
 
   /**
-   * Save Data
-   *
-   * @param Object data
-   *
-   * @returns {Promise<void>}
-   */
-  async save(data) {
-    const key = RedisProvider.generateDataRedisKey(data)
-    await this.service.set(key, data)
-    return data.oid
-  }
-
-  /**
    * Get data with condition
    *
    * @param data
    *
-   * @returns {Promise<unknown[]>}
+   * @returns {Promise<[Object]>}
    */
-  async get(data) {
-    const pattern = RedisProvider.generateDataRedisSearchPattern(data)
+  async get(condition) {
+    const pattern = RedisProvider.generateDataRedisSearchPattern(condition)
     const keys = await this.service.asyncKeys(pattern)
     const requests = keys.map((key) => {
       return this.service.get(key)
     })
     const items = await Promise.all(requests)
-    const result = items.map((item) => {
-      return JSON.parse(item)
-    })
+    const result = items.map((item) => JSON.parse(item))
     return result
   }
 
@@ -91,10 +91,43 @@ class RedisProvider extends DataStoreProviderAbstract {
    *
    * @returns {Promise<void>}
    */
-  async getActiveDataObjectById(oid) {
-    const dataList = await this.get({oid: oid})
+  async getActiveDataObject(oid) {
+    const dataList = await this.get({oid})
     const data = dataList.filter((item) => item.isActive)
     return data[0]
+  }
+
+  /**
+   * Get Last Version Of Data Object By Id
+   *
+   * @returns {Promise<Object>}
+   */
+  async getLastVersionOfDataObject(oid, repository) {
+    let dataObject = null
+    const condition = {
+      oid: oid,
+      repository: repository
+    }
+    const objectList = await this.get(condition)
+    if (objectList.length !== 0) {
+      dataObject = objectList.reduce((previousItem, currentItem) => {
+        return (previousItem.version > currentItem.version ? previousItem : currentItem);
+      })
+    }
+    return dataObject
+  }
+
+  /**
+   * Save Data
+   *
+   * @param Object data
+   *
+   * @returns {Promise<void>}
+   */
+  async save(data) {
+    const key = RedisProvider.generateDataRedisKey(data)
+    await this.service.set(key, data)
+    return data.oid
   }
 }
 

@@ -30,7 +30,7 @@ class DataStore {
   }
 
   /**
-   * Get data by conditiob
+   * Get data by condition
    *
    * @param conditions
    *
@@ -47,8 +47,32 @@ class DataStore {
    *
    * @returns {Promise<*|void>}
    */
-  async getActiveDataObjectById(id) {
-    return this.provider.getActiveDataObjectById(id)
+  async getActiveDataObject(id, repository) {
+    return this.provider.getActiveDataObject(id, repository)
+  }
+
+  /**
+   * Get Last Version Of Data Object By Id
+   *
+   * Different providers might have different logic
+   *
+   * @param Object data
+   *
+   * @returns {Promise<void>}
+   */
+  async getLastVersionOfDataObject(oid, repository) {
+    return this.provider.getLastVersionOfDataObject(oid, repository)
+  }
+
+  /**
+   * Check is object exist
+   *
+   * @param Object condition
+   *
+   * @returns {Promise<*>}
+   */
+  async existDataObject(dataObject) {
+    return this.provider.existDataObject(dataObject)
   }
 }
 
