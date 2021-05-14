@@ -28,6 +28,28 @@ class DataStore {
   async save(obj) {
     return this.provider.save(obj)
   }
+
+  /**
+   * Get data by conditiob
+   *
+   * @param conditions
+   *
+   * @returns {Promise<*>}
+   */
+  async get(conditions) {
+    return this.provider.get(conditions)
+  }
+
+  /**
+   * Get active data Object by id
+   *
+   * @param string id
+   *
+   * @returns {Promise<*|void>}
+   */
+  async getActiveDataObjectById(id) {
+    return this.provider.getActiveDataObjectById(id)
+  }
 }
 
 // init data storage

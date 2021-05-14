@@ -21,6 +21,19 @@ class DataController {
     await dataStore.save(dataObject)
     return res.status(201).json(DataTransformer.formatDataResponseObject(dataObject))
   }
+
+  /**
+   *
+   * @param req
+   * @param res
+   * @returns {Promise<void>}
+   */
+  static async downloadObject(req, res) {
+    const params = req.params
+    // const dataObject = await dataStore.get({oid: params.objectId})
+    const dataObject = await dataStore.getActiveDataObjectById(params.objectId)
+    res.status(200).json(dataObject)
+  }
 }
 
 exports.DataController = DataController

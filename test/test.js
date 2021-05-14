@@ -23,13 +23,13 @@ describe('data-storage-api-node', () => {
 
 // //
 // //   // GET
-// //   const hash = putResult.body.oid
-// //   await supertest(server)
-// //     .get(`/data/cats/${hash}`)
-// //     .expect(200)
-// //     .then(response => {
-// //       expect(response.body).toEqual({ name: 'Copernicus' })
-// //     })
+//   const hash = putResult.body.oid
+//   await supertest(server)
+//     .get(`/data/cats/${hash}`)
+//     .expect(200)
+//     .then(response => {
+//       expect(response.body).toEqual({ name: 'Copernicus' })
+//     })
 // //
 // //   // DELETE
 // //   await supertest(server)

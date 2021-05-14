@@ -24,7 +24,8 @@ class DataHelper {
       oid: DataHelper.generateObjectId(),
       hash: ObjectHelper.generateObjectHash(data),
       data: data,
-      version: 'v1'
+      version: 'v1',
+      isActive: 1
     }
     return dataObject
   }

@@ -5,6 +5,9 @@ const { InternalServerError } = require('../utils/http-errors')
  * Redis Service Client
  */
 class RedisService {
+  /**
+   * constructor
+   */
   constructor () {
     this.client = redisClient
   }
@@ -19,8 +22,29 @@ class RedisService {
     if (!content || !key) {
       throw new InternalServerError('Save data error')
     }
-    const res = await this.client.asyncSet(key, JSON.stringify(content))
-    return res
+    return this.client.asyncSet(key, JSON.stringify(content))
+  }
+
+  /**
+   * async Keys
+   *
+   * @param pattern
+   *
+   * @returns {Promise<*>}
+   */
+  async asyncKeys (pattern) {
+    return this.client.asyncKeys(pattern)
+  }
+
+  /**
+   * Get record
+   *
+   * @param string key
+   *
+   * @returns {Promise<*>}
+   */
+  async get(key) {
+    return this.client.asyncGet(key)
   }
 }
 
