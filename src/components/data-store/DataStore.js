@@ -74,6 +74,19 @@ class DataStore {
   async existDataObject(dataObject) {
     return this.provider.existDataObject(dataObject)
   }
+
+  /**
+   * Get Data Object By Version
+   *
+   * @param string oid
+   * @param string repository
+   * @param string version
+   *
+   * @returns {Promise<*|Object>}
+   */
+  async getDataObjectByVersion(oid, repository, version) {
+    return this.provider.getDataObjectByVersion(oid, repository, version)
+  }
 }
 
 // init data storage

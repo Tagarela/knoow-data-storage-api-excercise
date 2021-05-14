@@ -36,8 +36,11 @@ class DataController {
    */
   static async downloadObject(req, res) {
     const params = req.params
-    const dataObject = await dataStore.getActiveDataObjectById(params.objectId)
-    res.status(200).json(dataObject)
+    const dataObject = await dataStore.getActiveDataObject(params.objectId)
+    if (!dataObject) {
+      throw new NotFoundError()
+    }
+    res.status(HttpStatusCode.OK).json(DataTransformer.formatDataResponseObject(dataObject))
   }
 
   /**
@@ -72,8 +75,24 @@ class DataController {
    */
   static async revertObject(req, res) {
     const params = req.params
-    console.log(params)
-    res.end()
+    /*** Get Data Object ***/
+    let dataObject = await dataStore.getDataObjectByVersion(params.objectId, params.repository, params.version)
+    if (dataObject.length === 0) {
+      throw new NotFoundError()
+    }
+    dataObject = dataObject[0]
+    // get active version
+    const activeDataObject = await dataStore.getActiveDataObject(params.objectId, params.repository)
+
+    /*** disable active version ***/
+    if (activeDataObject) {
+      activeDataObject.isActive = 0
+      dataStore.save(activeDataObject)
+    }
+    /*** enable active version ***/
+    dataObject.isActive = 1
+    dataStore.save(dataObject)
+    return res.status(HttpStatusCode.OK).json(DataTransformer.formatDataResponseObject(dataObject))
   }
 }
 

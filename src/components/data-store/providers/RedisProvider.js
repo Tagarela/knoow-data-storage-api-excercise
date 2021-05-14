@@ -129,6 +129,24 @@ class RedisProvider extends DataStoreProviderAbstract {
     await this.service.set(key, data)
     return data.oid
   }
+
+  /**
+   * Get Data Object By Version
+   *
+   * @param string oid
+   * @param string repository
+   * @param string version
+   *
+   * @returns {Promise<*|Object>}
+   */
+  async getDataObjectByVersion(oid, repository, version) {
+    const dataObjectList = await this.get({oid: oid, repository:repository})
+    const dataObject =  dataObjectList.filter((item) => item.version.toString() === version.toString())
+    if (dataObject.length > 1) {
+      throw new Error('something went wrong')
+    }
+    return dataObject
+  }
 }
 
 RedisProvider.PROVIDER_NAME = 'redis'

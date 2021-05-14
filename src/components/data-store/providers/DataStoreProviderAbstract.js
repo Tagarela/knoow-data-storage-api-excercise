@@ -54,4 +54,13 @@ DataStoreProviderAbstract.prototype.existDataObject = function(data) {
   throw new Error("Provider exist data method error")
 }
 
+/**
+ * Abstract exist data object
+ *
+ * @param Object data
+ */
+DataStoreProviderAbstract.prototype.getDataObjectByVersion = function(oid, repository, version) {
+  throw new Error("Provider getDataObjectByVersion data method error")
+}
+
 exports.DataStoreProviderAbstract = DataStoreProviderAbstract
