@@ -15,6 +15,9 @@ router.route('/data/:repository/:objectId/:version')
 router.route('/data/:repository/:objectId')
   .get(DataController.downloadObject)
 
+router.route('/data/:repository/:objectId')
+  .delete(DataController.deleteObject)
+
 router.all('*', (req, res) => {
   res.status(404).json({ error: 'Route not found' })
 })

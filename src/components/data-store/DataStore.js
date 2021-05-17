@@ -87,6 +87,17 @@ class DataStore {
   async getDataObjectByVersion(oid, repository, version) {
     return this.provider.getDataObjectByVersion(oid, repository, version)
   }
+
+  /**
+   * Delete data Object by id
+   *
+   * @param string oid
+   *
+   * @returns {Promise<*>}
+   */
+  async deleteDataObjectById(oid, repository) {
+    return this.provider.deleteDataObjectById(oid, repository)
+  }
 }
 
 // init data storage

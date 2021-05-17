@@ -29,9 +29,11 @@ class DataController {
   }
 
   /**
-   * download Object endpoint
+   * Download Object endpoint
+   *
    * @param Object req
    * @param Object res
+   *
    * @returns {Promise<void>}
    */
   static async downloadObject(req, res) {
@@ -93,6 +95,18 @@ class DataController {
     dataObject.isActive = 1
     dataStore.save(dataObject)
     return res.status(HttpStatusCode.OK).json(DataTransformer.formatDataResponseObject(dataObject))
+  }
+
+  /**
+   * Delete object
+   *
+   * @param Object req
+   * @param Object res
+   */
+  static async deleteObject(req, res) {
+    const params = req.params
+    await dataStore.deleteDataObjectById(params.objectId, params.repository)
+    return res.status(204).end()
   }
 }
 

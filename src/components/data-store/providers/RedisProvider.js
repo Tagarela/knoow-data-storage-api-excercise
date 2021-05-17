@@ -147,6 +147,23 @@ class RedisProvider extends DataStoreProviderAbstract {
     }
     return dataObject
   }
+
+  /**
+   * Delete object with all versions
+   *
+   * @param string key
+   *
+   * @returns {Promise<*>}
+   */
+  async deleteDataObjectById(oid, repository) {
+    // get keys
+    const pattern = RedisProvider.generateDataRedisSearchPattern({oid: oid, repository: repository})
+    const keys = await this.service.asyncKeys(pattern)
+    for (let i = 0; i < keys.length; i++) {
+       await this.service.delete(keys[i])
+    }
+    return true
+  }
 }
 
 RedisProvider.PROVIDER_NAME = 'redis'

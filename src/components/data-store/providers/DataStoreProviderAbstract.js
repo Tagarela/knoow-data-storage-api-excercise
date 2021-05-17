@@ -63,4 +63,8 @@ DataStoreProviderAbstract.prototype.getDataObjectByVersion = function(oid, repos
   throw new Error("Provider getDataObjectByVersion data method error")
 }
 
+DataStoreProviderAbstract.prototype.deleteDataObjectById = function(oid, repository) {
+  throw new Error("Provider deleteDataObjectById data method error")
+}
+
 exports.DataStoreProviderAbstract = DataStoreProviderAbstract

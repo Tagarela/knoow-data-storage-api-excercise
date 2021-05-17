@@ -46,6 +46,17 @@ class RedisService {
   async get(key) {
     return this.client.asyncGet(key)
   }
+
+  /**
+   * Delete by key
+   *
+   * @param key
+   *
+   * @returns {Promise<*>}
+   */
+  async delete(key) {
+    return this.client.asyncDel(key)
+  }
 }
 
 RedisService.REPO_TABLE_PREFIX = 'repo'
