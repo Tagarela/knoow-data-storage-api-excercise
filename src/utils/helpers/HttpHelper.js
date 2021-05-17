@@ -12,6 +12,7 @@ class HttpHelper {
   static getBodyFromRequest(req) {
     return req.body
   }
+
   /**
    * Get POST/GET request params
    *
