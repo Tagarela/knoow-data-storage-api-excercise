@@ -1,6 +1,12 @@
-// replace this with your server implementation...
-const server = null
+const { App } = require('./src/App')
+const app = App.createApplication()
 
-// The tests exercise the server by requiring it as a module,
-// rather than running it in a separate process and listening on a port
+const server = app.listen(app.get('port'), () => {
+  process.on('unhandledRejection', (exception) => {
+    console.log('Unhandled Rejection:', exception)
+    process.exit(1)
+  })
+  console.log(`App is running at http://localhost:${app.get('port')} in ${app.get('mode')} mode`)
+})
+
 module.exports = server
