@@ -75,6 +75,6 @@ class DataHelper {
 }
 
 DataHelper.ACTIVE = 1
-DataHelper.NOT_ACTIVE = 1
+DataHelper.NOT_ACTIVE = 0
 
 exports.DataHelper = DataHelper
