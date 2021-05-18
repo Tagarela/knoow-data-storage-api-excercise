@@ -15,11 +15,10 @@ class DataController {
    * @returns {Promise<*>}
    */
   static async uploadObject(req, res) {
-    const body = req.body
-    const params = req.params
+    const body = HttpHelper.getAllParamsFromRequest(req)
     /*** Prepare data ***/
     const dataObject = DataHelper.generateDataObject(body)
-    dataObject.repository = params.repository
+    /*** check if such object exist in current repo ***/
     const dataObjectExist = await dataStore.get({ hash: dataObject.hash, repository: dataObject.repository })
     if (dataObjectExist.length > 0) {
       throw new ConflictError(`Such object in this repo already exist. oid: ${dataObjectExist[0].oid}, version: ${dataObjectExist[0].version}`)
@@ -57,8 +56,8 @@ class DataController {
     const params = req.params
     const body = req.body
     /*** check duplicates ***/
+    body.repository = params.repository
     const dataObject = DataHelper.generateDataObject(body, params.objectId)
-    dataObject.repository = params.repository
     const dataObjectExist = await dataStore.get({ hash: dataObject.hash, repository: dataObject.repository })
     if (dataObjectExist.length > 0) {
       throw new ConflictError(`Such object in this repo already exist. oid: ${dataObjectExist[0].oid}, version: ${dataObjectExist[0].version}`)
