@@ -12,6 +12,12 @@ globals:
   after: false
   beforeEach: false
   afterEach: false
+  afterAll: false
+  test: false
+  expect: false
 parserOptions:
   ecmaVersion: 12
   sourceType: module
+rules:
+  no-case-declarations: 0
+  eqeqeq: 0

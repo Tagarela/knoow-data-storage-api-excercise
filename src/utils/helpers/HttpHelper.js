@@ -9,7 +9,7 @@ class HttpHelper {
    *
    * @returns Object
    */
-  static getBodyFromRequest(req) {
+  static getBodyFromRequest (req) {
     return req.body
   }
 
@@ -20,7 +20,7 @@ class HttpHelper {
    *
    * @returns {*|{}}
    */
-  static getAllParamsFromRequest(req) {
+  static getAllParamsFromRequest (req) {
     let params = {}
     params = Object.assign(params, req.body)
     params = Object.assign(params, req.params)
