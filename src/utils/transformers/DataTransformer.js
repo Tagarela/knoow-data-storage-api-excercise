@@ -1,18 +1,22 @@
-const { DataHelper, ObjectHelper } = require('../helpers')
+const { ObjectHelper } = require('../helpers')
 
 /**
- * Bookmark Transformer
+ * Data Object Transformer
  */
 class DataTransformer {
   /**
-   * Format Bookmark Response Object
+   * Format Data Object Response Object
+   *
    * @param data
+   *
    * @returns {{}}
    */
   static formatDataResponseObject (data) {
     const response = {
-      size: ObjectHelper.getObjectSize(data),
-      data: data
+      oid: data.oid,
+      size:  ObjectHelper.getObjectSize(data.data),
+      version: data.version,
+      data: data.data
     }
     return response
   }

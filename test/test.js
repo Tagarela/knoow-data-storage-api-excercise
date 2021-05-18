@@ -2,42 +2,94 @@
 // // but you can add more tests if needed.
 const supertest = require('supertest')
 const { App } = require('../src/App')
+const { TestHelper } = require('./TestHelper')
 const app = App.createApplication()
-const redis = require('../src/utils/redis')
 
 describe('data-storage-api-node', () => {
 
-  afterAll(async (done) => {
-    redis.redisClient.quit()
-    done()
-  })
+  beforeEach(TestHelper.setUp)
+  afterEach(TestHelper.tearDown)
+
+  afterAll(TestHelper.tearAllDown)
+
   test('data-storage-api-node', async done => {
+    // PUT
     const putResult = await supertest(app)
       .put('/data/cats')
-      .send({ name: 'Copernicus' })
+      .send({name: 'Copernicus'})
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(201)
-    done()
-  // PUT
 
-// //
-// //   // GET
-//   const hash = putResult.body.oid
-//   await supertest(server)
-//     .get(`/data/cats/${hash}`)
-//     .expect(200)
-//     .then(response => {
-//       expect(response.body).toEqual({ name: 'Copernicus' })
-//     })
-// //
-// //   // DELETE
-// //   await supertest(server)
-// //     .delete(`/data/cats/${hash}`)
-// //     .expect(200)
-// //
-// //   await supertest(server)
-// //     .get(`/data/cats/${hash}`)
-// //     .expect(404)
+    // GET
+    const hash = putResult.body.oid
+    const response = await supertest(app)
+      .get(`/data/cats/${hash}`)
+      .expect(200)
+    expect(response.body).toEqual({
+      size: 28,
+      oid: hash,
+      version: 1,
+      data: { name: 'Copernicus' }
+    })
+
+    // DELETE
+    await supertest(app)
+      .delete(`/data/cats/${hash}`)
+      .expect(204)
+    await supertest(app)
+      .get(`/data/cats/${hash}`)
+      .expect(404)
+    done()
+  })
+
+
+  test('should return error becouse of the duplicates', async done => {
+    // PUT
+    let response = await supertest(app)
+      .put('/data/cats')
+      .send({name: 'Copernicus'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(201)
+    const id = response.body.oid
+    // update object (should get error because of duplicates)
+    await supertest(app)
+      .put(`/data/cats/${id}`)
+      .send({name: 'Copernicus'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(409)
+
+    done()
+  })
+
+  test('should publish new version', async done => {
+    // PUT
+    let response = await supertest(app)
+      .put('/data/cats')
+      .send({name: 'Copernicus'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(201)
+    const id = response.body.oid
+
+    response = await supertest(app)
+      .get(`/data/cats/${id}`)
+      .expect(200)
+    expect(response.body.version).toEqual(1)
+
+    await supertest(app)
+      .put(`/data/cats/${id}`)
+      .send({ name: 'Copernicus', age:1 })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+
+    response = await supertest(app)
+      .get(`/data/cats/${id}`)
+      .expect(200)
+    expect(response.body.version).toEqual(2)
+    done()
   })
 })

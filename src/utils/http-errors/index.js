@@ -7,6 +7,7 @@ const { InternalServerError } = require('./InternalServerError')
 const { NotFoundError } = require('./NotFoundError')
 const { UnauthorizedError } = require('./UnauthorizedError')
 const { UnprocessableError } = require('./UnprocessableError')
+const { HttpStatusCode } = require('./HttpStatusCode')
 
 module.exports = {
   ConflictError: ConflictError,
@@ -15,6 +16,7 @@ module.exports = {
   ForbiddenError: ForbiddenError,
   GatewayTimeOutError: GatewayTimeOutError,
   InternalServerError: InternalServerError,
+  HttpStatusCode: HttpStatusCode,
   NotFoundError: NotFoundError,
   UnauthorizedError: UnauthorizedError,
   UnprocessableError: UnprocessableError
