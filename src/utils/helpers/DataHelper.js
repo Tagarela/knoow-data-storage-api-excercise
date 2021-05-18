@@ -11,7 +11,7 @@ class DataHelper {
   /**
    * Generate Data object id
    *
-   * @returns {*}
+   * @returns string
    */
   static generateObjectId() {
     return uuid()
@@ -21,8 +21,12 @@ class DataHelper {
    * Generate data object
    *
    * @param Object data
+   * @param string oid
+   *
+   * @returns {{data: *, oid: string, isActive: number, version: number, hash: string}}
    */
   static generateDataObject (data, oid = undefined) {
+    /*** generate object id ***/
     if (!oid) {
       oid = DataHelper.generateObjectId()
     }
@@ -30,8 +34,12 @@ class DataHelper {
       oid: oid,
       hash: ObjectHelper.generateObjectHash(data),
       data: data,
-      version: 1,
-      isActive: 1
+      version: 1, // version
+      isActive: DataHelper.ACTIVE // set active 1 by default
+    }
+    if (dataObject.data.repository) {
+      dataObject.repository = data.repository
+      delete dataObject.data.repository
     }
     return dataObject
   }
@@ -54,7 +62,7 @@ class DataHelper {
       /*** disable old version ***/
       const activeDataObject = await dataStore.getActiveDataObject(dataObject.oid, dataObject.repository)
       if(activeDataObject) {
-        activeDataObject.isActive = 0
+        activeDataObject.isActive = DataHelper.NOT_ACTIVE
         await dataStore.save(activeDataObject)
       }
       /*** save new version ***/
@@ -64,5 +72,8 @@ class DataHelper {
     }
   }
 }
+
+DataHelper.ACTIVE = 1
+DataHelper.NOT_ACTIVE = 1
 
 exports.DataHelper = DataHelper

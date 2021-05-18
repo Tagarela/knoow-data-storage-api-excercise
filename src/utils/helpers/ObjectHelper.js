@@ -2,6 +2,7 @@ const crypto = require('crypto')
 
 /**
  * Object Helper
+ *
  * Helper for working with objects
  */
 class ObjectHelper {

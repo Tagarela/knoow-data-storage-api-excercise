@@ -22,31 +22,74 @@ describe('data-storage-api-node', () => {
       .expect(201)
 
     // GET
-    const hash = putResult.body.data.oid
+    const hash = putResult.body.oid
     const response = await supertest(app)
       .get(`/data/cats/${hash}`)
       .expect(200)
     expect(response.body).toEqual({
-      size: 324,
-      data: {
-          oid: hash,
-          hash:
-            '69fe64d233ee4de4dee1f43b4e3aef08805e2b1aaed212fb3b5d9cf4a8a58fad',
-          data: {name: 'Copernicus'},
-          version: 1,
-          isActive: 1,
-          repository: 'cats'
-        }
+      size: 28,
+      oid: hash,
+      version: 1,
+      data: { name: 'Copernicus' }
     })
 
     // DELETE
     await supertest(app)
       .delete(`/data/cats/${hash}`)
       .expect(204)
-
     await supertest(app)
       .get(`/data/cats/${hash}`)
       .expect(404)
+    done()
+  })
+
+
+  test('should return error becouse of the duplicates', async done => {
+    // PUT
+    let response = await supertest(app)
+      .put('/data/cats')
+      .send({name: 'Copernicus'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(201)
+    const id = response.body.oid
+    // update object (should get error because of duplicates)
+    await supertest(app)
+      .put(`/data/cats/${id}`)
+      .send({name: 'Copernicus'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(409)
+
+    done()
+  })
+
+  test('should publish new version', async done => {
+    // PUT
+    let response = await supertest(app)
+      .put('/data/cats')
+      .send({name: 'Copernicus'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(201)
+    const id = response.body.oid
+
+    response = await supertest(app)
+      .get(`/data/cats/${id}`)
+      .expect(200)
+    expect(response.body.version).toEqual(1)
+
+    await supertest(app)
+      .put(`/data/cats/${id}`)
+      .send({ name: 'Copernicus', age:1 })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+
+    response = await supertest(app)
+      .get(`/data/cats/${id}`)
+      .expect(200)
+    expect(response.body.version).toEqual(2)
     done()
   })
 })
