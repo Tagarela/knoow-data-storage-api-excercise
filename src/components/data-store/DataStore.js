@@ -11,8 +11,8 @@ class DataStore {
    *
    * @param provider
    */
-  constructor(provider) {
-    if(!provider instanceof DataStoreProviderAbstract) {
+  constructor (provider) {
+    if (!(provider instanceof DataStoreProviderAbstract)) {
       throw new Error('Incorrect Provider')
     }
     this.provider = provider
@@ -25,7 +25,7 @@ class DataStore {
    *
    * @returns {Promise<*|SaveStatus|void>}
    */
-  async save(obj) {
+  async save (obj) {
     return this.provider.save(obj)
   }
 
@@ -36,7 +36,7 @@ class DataStore {
    *
    * @returns {Promise<*>}
    */
-  async get(conditions) {
+  async get (conditions) {
     return this.provider.get(conditions)
   }
 
@@ -47,7 +47,7 @@ class DataStore {
    *
    * @returns {Promise<*|void>}
    */
-  async getActiveDataObject(id, repository) {
+  async getActiveDataObject (id, repository) {
     return this.provider.getActiveDataObject(id, repository)
   }
 
@@ -60,7 +60,7 @@ class DataStore {
    *
    * @returns {Promise<void>}
    */
-  async getLastVersionOfDataObject(oid, repository) {
+  async getLastVersionOfDataObject (oid, repository) {
     return this.provider.getLastVersionOfDataObject(oid, repository)
   }
 
@@ -71,7 +71,7 @@ class DataStore {
    *
    * @returns {Promise<*>}
    */
-  async existDataObject(dataObject) {
+  async existDataObject (dataObject) {
     return this.provider.existDataObject(dataObject)
   }
 
@@ -84,7 +84,7 @@ class DataStore {
    *
    * @returns {Promise<*|Object>}
    */
-  async getDataObjectByVersion(oid, repository, version) {
+  async getDataObjectByVersion (oid, repository, version) {
     return this.provider.getDataObjectByVersion(oid, repository, version)
   }
 
@@ -95,7 +95,7 @@ class DataStore {
    *
    * @returns {Promise<*>}
    */
-  async deleteDataObjectById(oid, repository) {
+  async deleteDataObjectById (oid, repository) {
     return this.provider.deleteDataObjectById(oid, repository)
   }
 }

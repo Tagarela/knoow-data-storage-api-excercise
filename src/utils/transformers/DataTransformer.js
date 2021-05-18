@@ -14,7 +14,7 @@ class DataTransformer {
   static formatDataResponseObject (data) {
     const response = {
       oid: data.oid,
-      size:  ObjectHelper.getObjectSize(data.data),
+      size: ObjectHelper.getObjectSize(data.data),
       version: data.version,
       data: data.data
     }
