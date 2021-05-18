@@ -21,7 +21,8 @@
 ### RUN PROJECT VIA DOCKER
 1. copy .env.example to .env
 2. npm install
-3. docker-compose up 
+3. docker-compose build (npm run build)
+4. docker-compose up (npm run dev)
 
     *Note: For running test. Run docker and run test in separate tab 
 
