@@ -2,9 +2,9 @@
  * Abstract class (interface for Data storage)
  */
 class DataStoreProviderAbstract {
-  constructor() {
+  constructor () {
     if (this.constructor === DataStoreProviderAbstract) {
-      throw new Error("abstract class!")
+      throw new Error('abstract class!')
     }
   }
 }
@@ -14,8 +14,8 @@ class DataStoreProviderAbstract {
  *
  * @param Object data
  */
-DataStoreProviderAbstract.prototype.save = function(data) {
-  throw new Error("Provider save method error")
+DataStoreProviderAbstract.prototype.save = function (data) {
+  throw new Error('Provider save method error')
 }
 
 /**
@@ -23,8 +23,8 @@ DataStoreProviderAbstract.prototype.save = function(data) {
  *
  * @param Object data
  */
-DataStoreProviderAbstract.prototype.get = function(conditions) {
-  throw new Error("Provider get method error")
+DataStoreProviderAbstract.prototype.get = function (conditions) {
+  throw new Error('Provider get method error')
 }
 
 /**
@@ -32,8 +32,8 @@ DataStoreProviderAbstract.prototype.get = function(conditions) {
  *
  * @param Object data
  */
-DataStoreProviderAbstract.prototype.getActiveDataObject = function(id) {
-  throw new Error("Provider get active data method error")
+DataStoreProviderAbstract.prototype.getActiveDataObject = function (id) {
+  throw new Error('Provider get active data method error')
 }
 
 /**
@@ -41,8 +41,8 @@ DataStoreProviderAbstract.prototype.getActiveDataObject = function(id) {
  *
  * @param Object data
  */
-DataStoreProviderAbstract.prototype.getLastVersionOfDataObject = function(oid, repository) {
-  throw new Error("Provider get last version data method error")
+DataStoreProviderAbstract.prototype.getLastVersionOfDataObject = function (oid, repository) {
+  throw new Error('Provider get last version data method error')
 }
 
 /**
@@ -50,8 +50,8 @@ DataStoreProviderAbstract.prototype.getLastVersionOfDataObject = function(oid, r
  *
  * @param Object data
  */
-DataStoreProviderAbstract.prototype.existDataObject = function(data) {
-  throw new Error("Provider exist data method error")
+DataStoreProviderAbstract.prototype.existDataObject = function (data) {
+  throw new Error('Provider exist data method error')
 }
 
 /**
@@ -59,12 +59,12 @@ DataStoreProviderAbstract.prototype.existDataObject = function(data) {
  *
  * @param Object data
  */
-DataStoreProviderAbstract.prototype.getDataObjectByVersion = function(oid, repository, version) {
-  throw new Error("Provider getDataObjectByVersion data method error")
+DataStoreProviderAbstract.prototype.getDataObjectByVersion = function (oid, repository, version) {
+  throw new Error('Provider getDataObjectByVersion data method error')
 }
 
-DataStoreProviderAbstract.prototype.deleteDataObjectById = function(oid, repository) {
-  throw new Error("Provider deleteDataObjectById data method error")
+DataStoreProviderAbstract.prototype.deleteDataObjectById = function (oid, repository) {
+  throw new Error('Provider deleteDataObjectById data method error')
 }
 
 exports.DataStoreProviderAbstract = DataStoreProviderAbstract

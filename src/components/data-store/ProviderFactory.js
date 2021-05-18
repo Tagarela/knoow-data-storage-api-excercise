@@ -11,9 +11,9 @@ class ProviderFactory {
    *
    * @returns {RedisProvider}
    */
-  static create(providerName) {
+  static create (providerName) {
     let provider = {}
-    switch (providerName){
+    switch (providerName) {
       case RedisProvider.PROVIDER_NAME:
         provider = new RedisProvider()
         break

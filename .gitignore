@@ -1,7 +1,4 @@
 .env
-.npmrc
-coverage
 node_modules
-package-lock.json
 .idea
 .github

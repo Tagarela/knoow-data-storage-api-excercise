@@ -13,9 +13,9 @@ class ObjectHelper {
    *
    * @returns [String]
    */
-  static getObjectProperties(obj) {
+  static getObjectProperties (obj) {
     const stringProperties = []
-    for (let prop in obj) {
+    for (const prop in obj) {
       stringProperties.push(prop)
     }
     if (Object.getOwnPropertySymbols) {
@@ -71,7 +71,7 @@ class ObjectHelper {
    * @returns {function(*=): (*)}
    */
   static getCalculator (seen) {
-    return function calculator(object) {
+    return function calculator (object) {
       if (Buffer.isBuffer(object)) {
         return object.length
       }
@@ -118,25 +118,27 @@ class ObjectHelper {
    *
    * @returns Object
    */
-  static sortObject(object){
-    const sortedObj = {}, keys = Object.keys(object)
+  static sortObject (object) {
+    const sortedObj = {}
+    const keys = Object.keys(object)
     keys.sort((key1, key2) => {
-      key1 = key1.toLowerCase(), key2 = key2.toLowerCase()
-      if(key1 < key2) return -1
-      if(key1 > key2) return 1
-      return 0;
-    });
+      key1 = key1.toLowerCase()
+      key2 = key2.toLowerCase()
+      if (key1 < key2) return -1
+      if (key1 > key2) return 1
+      return 0
+    })
 
-    for(let index in keys){
+    for (const index in keys) {
       const key = keys[index]
-      if(typeof object[key] == 'object' && !(object[key] instanceof Array)){
+      if (typeof object[key] == 'object' && !(object[key] instanceof Array)) {
         sortedObj[key] = ObjectHelper.sortObject(object[key])
       } else {
         sortedObj[key] = object[key]
       }
     }
 
-    return sortedObj;
+    return sortedObj
   }
 
   /**

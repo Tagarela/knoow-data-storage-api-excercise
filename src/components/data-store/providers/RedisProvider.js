@@ -9,8 +9,8 @@ class RedisProvider extends DataStoreProviderAbstract {
   /**
    * constructor
    */
-  constructor() {
-    super();
+  constructor () {
+    super()
     this.service = new RedisService()
   }
 
@@ -21,9 +21,9 @@ class RedisProvider extends DataStoreProviderAbstract {
    *
    * @returns {Promise<boolean>}
    */
-  async existDataObject(dataObject) {
+  async existDataObject (dataObject) {
     const data = await this.get(dataObject)
-    return data.length !== 0 ? true : false
+    return data.length !== 0
   }
 
   /**
@@ -33,7 +33,7 @@ class RedisProvider extends DataStoreProviderAbstract {
    *
    * @returns string
    */
-  static generateDataRedisKey(data) {
+  static generateDataRedisKey (data) {
     if (!data.repository || !data.oid || !data.hash) {
       throw new UnprocessableError('something went wrong')
     }
@@ -48,11 +48,11 @@ class RedisProvider extends DataStoreProviderAbstract {
    *
    * @returns {string}
    */
-  static generateDataRedisSearchPattern(data) {
+  static generateDataRedisSearchPattern (data) {
     const patternObject = {
-      repository: "*",
-      hash: "*",
-      oid: "*"
+      repository: '*',
+      hash: '*',
+      oid: '*'
     }
     if (data.repository) {
       patternObject.repository = data.repository
@@ -73,7 +73,7 @@ class RedisProvider extends DataStoreProviderAbstract {
    *
    * @returns {Promise<[Object]>}
    */
-  async get(condition) {
+  async get (condition) {
     const pattern = RedisProvider.generateDataRedisSearchPattern(condition)
     const keys = await this.service.asyncKeys(pattern)
     const requests = keys.map((key) => {
@@ -91,8 +91,8 @@ class RedisProvider extends DataStoreProviderAbstract {
    *
    * @returns {Promise<void>}
    */
-  async getActiveDataObject(oid) {
-    const dataList = await this.get({oid})
+  async getActiveDataObject (oid) {
+    const dataList = await this.get({ oid })
     const data = dataList.filter((item) => item.isActive)
     return data[0]
   }
@@ -102,7 +102,7 @@ class RedisProvider extends DataStoreProviderAbstract {
    *
    * @returns {Promise<Object>}
    */
-  async getLastVersionOfDataObject(oid, repository) {
+  async getLastVersionOfDataObject (oid, repository) {
     let dataObject = null
     const condition = {
       oid: oid,
@@ -111,7 +111,7 @@ class RedisProvider extends DataStoreProviderAbstract {
     const objectList = await this.get(condition)
     if (objectList.length !== 0) {
       dataObject = objectList.reduce((previousItem, currentItem) => {
-        return (previousItem.version > currentItem.version ? previousItem : currentItem);
+        return (previousItem.version > currentItem.version ? previousItem : currentItem)
       })
     }
     return dataObject
@@ -124,7 +124,7 @@ class RedisProvider extends DataStoreProviderAbstract {
    *
    * @returns {Promise<void>}
    */
-  async save(data) {
+  async save (data) {
     const key = RedisProvider.generateDataRedisKey(data)
     await this.service.set(key, data)
     return data.oid
@@ -139,9 +139,9 @@ class RedisProvider extends DataStoreProviderAbstract {
    *
    * @returns {Promise<*|Object>}
    */
-  async getDataObjectByVersion(oid, repository, version) {
-    const dataObjectList = await this.get({oid: oid, repository:repository})
-    const dataObject =  dataObjectList.filter((item) => item.version.toString() === version.toString())
+  async getDataObjectByVersion (oid, repository, version) {
+    const dataObjectList = await this.get({ oid: oid, repository: repository })
+    const dataObject = dataObjectList.filter((item) => item.version.toString() === version.toString())
     if (dataObject.length > 1) {
       throw new Error('something went wrong')
     }
@@ -155,12 +155,12 @@ class RedisProvider extends DataStoreProviderAbstract {
    *
    * @returns {Promise<*>}
    */
-  async deleteDataObjectById(oid, repository) {
+  async deleteDataObjectById (oid, repository) {
     // get keys
-    const pattern = RedisProvider.generateDataRedisSearchPattern({oid: oid, repository: repository})
+    const pattern = RedisProvider.generateDataRedisSearchPattern({ oid: oid, repository: repository })
     const keys = await this.service.asyncKeys(pattern)
     for (let i = 0; i < keys.length; i++) {
-       await this.service.delete(keys[i])
+      await this.service.delete(keys[i])
     }
     return true
   }

@@ -14,11 +14,11 @@ class DataController {
    *
    * @returns {Promise<*>}
    */
-  static async uploadObject(req, res) {
+  static async uploadObject (req, res) {
     const body = HttpHelper.getAllParamsFromRequest(req)
-    /*** Prepare data ***/
+    // Prepare data
     const dataObject = DataHelper.generateDataObject(body)
-    /*** check if such object exist in current repo ***/
+    // check if such object exist in current repo
     const dataObjectExist = await dataStore.get({ hash: dataObject.hash, repository: dataObject.repository })
     if (dataObjectExist.length > 0) {
       throw new ConflictError(`Such object in this repo already exist. oid: ${dataObjectExist[0].oid}, version: ${dataObjectExist[0].version}`)
@@ -35,7 +35,7 @@ class DataController {
    *
    * @returns {Promise<void>}
    */
-  static async downloadObject(req, res) {
+  static async downloadObject (req, res) {
     const params = req.params
     const dataObject = await dataStore.getActiveDataObject(params.objectId)
     if (!dataObject) {
@@ -52,10 +52,10 @@ class DataController {
    *
    * @returns {Promise<void>}
    */
-  static async publish(req, res) {
+  static async publish (req, res) {
     const params = req.params
     const body = req.body
-    /*** check duplicates ***/
+    // check duplicates
     body.repository = params.repository
     const dataObject = DataHelper.generateDataObject(body, params.objectId)
     const dataObjectExist = await dataStore.get({ hash: dataObject.hash, repository: dataObject.repository })
@@ -74,9 +74,9 @@ class DataController {
    *
    * @returns {Promise<void>}
    */
-  static async revertObject(req, res) {
+  static async revertObject (req, res) {
     const params = req.params
-    /*** Get Data Object ***/
+    // Get Data Object
     let dataObject = await dataStore.getDataObjectByVersion(params.objectId, params.repository, params.version)
     if (dataObject.length === 0) {
       throw new NotFoundError()
@@ -85,14 +85,14 @@ class DataController {
     // get active version
     const activeDataObject = await dataStore.getActiveDataObject(params.objectId, params.repository)
 
-    /*** disable active version ***/
+    // disable active version
     if (activeDataObject) {
       activeDataObject.isActive = 0
       dataStore.save(activeDataObject)
     }
-    /*** enable active version ***/
+    // enable active version
     dataObject.isActive = 1
-    dataStore.save(dataObject)
+    await dataStore.save(dataObject)
     return res.status(HttpStatusCode.OK).json(DataTransformer.formatDataResponseObject(dataObject))
   }
 
@@ -102,7 +102,7 @@ class DataController {
    * @param Object req
    * @param Object res
    */
-  static async deleteObject(req, res) {
+  static async deleteObject (req, res) {
     const params = req.params
     await dataStore.deleteDataObjectById(params.objectId, params.repository)
     return res.status(204).end()

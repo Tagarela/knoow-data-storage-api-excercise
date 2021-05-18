@@ -5,6 +5,7 @@ const { dataStore } = require('../../components/data-store/DataStore')
 
 /**
  * Data Helper
+ *
  * Helper for working with data model
  */
 class DataHelper {
@@ -13,7 +14,7 @@ class DataHelper {
    *
    * @returns string
    */
-  static generateObjectId() {
+  static generateObjectId () {
     return uuid()
   }
 
@@ -26,7 +27,7 @@ class DataHelper {
    * @returns {{data: *, oid: string, isActive: number, version: number, hash: string}}
    */
   static generateDataObject (data, oid = undefined) {
-    /*** generate object id ***/
+    // generate object id
     if (!oid) {
       oid = DataHelper.generateObjectId()
     }
@@ -51,22 +52,22 @@ class DataHelper {
    *
    * @returns {Promise<void>}
    */
-  static async publishNewDataObjectVersion(dataObject) {
-    /*** get last version of object ***/
+  static async publishNewDataObjectVersion (dataObject) {
+    // get last version of object
     const lastDataObject = await dataStore.getLastVersionOfDataObject(dataObject.oid, dataObject.repository)
     if (!lastDataObject) {
       throw new NotFoundError('Object does not exist. Create it first')
     }
     try {
       dataObject.version = lastDataObject.version + 1
-      /*** disable old version ***/
+      // disable old version
       const activeDataObject = await dataStore.getActiveDataObject(dataObject.oid, dataObject.repository)
-      if(activeDataObject) {
+      if (activeDataObject) {
         activeDataObject.isActive = DataHelper.NOT_ACTIVE
         await dataStore.save(activeDataObject)
       }
-      /*** save new version ***/
-      await dataStore.save(dataObject)
+      // save new version
+      return dataStore.save(dataObject)
     } catch (e) {
       throw new InternalServerError(e.message)
     }
@@ -74,6 +75,6 @@ class DataHelper {
 }
 
 DataHelper.ACTIVE = 1
-DataHelper.NOT_ACTIVE = 1
+DataHelper.NOT_ACTIVE = 0
 
 exports.DataHelper = DataHelper

@@ -11,6 +11,7 @@ class RedisService {
   constructor () {
     this.client = redisClient
   }
+
   /**
    * Save Data
    *
@@ -43,7 +44,7 @@ class RedisService {
    *
    * @returns {Promise<*>}
    */
-  async get(key) {
+  async get (key) {
     return this.client.asyncGet(key)
   }
 
@@ -54,7 +55,7 @@ class RedisService {
    *
    * @returns {Promise<*>}
    */
-  async delete(key) {
+  async delete (key) {
     return this.client.asyncDel(key)
   }
 }
