@@ -1,7 +1,7 @@
 // // The existing tests in this file should not be modified,
 // // but you can add more tests if needed.
 const supertest = require('supertest')
-require('dotenv').config()
+require('dotenv').config({ path: '../qwe.env' })
 const { App } = require('../src/App')
 const { TestHelper } = require('./TestHelper')
 const { FixtureHelper } = require('./FixtureHelper')

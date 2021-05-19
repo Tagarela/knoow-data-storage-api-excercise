@@ -9,9 +9,11 @@ const DEFAULT_MESSAGE = 'Gateway timeout error'
  */
 class GatewayTimeOutError extends CustomError {
   /**
-   * @param code
-   * @param message
-   * @param options
+   * constructor
+   *
+   * @param integer code
+   * @param string message
+   * @param Object options
    */
   constructor (message = DEFAULT_MESSAGE, code = DEFAULT_CODE, options = {}) {
     super(HttpStatusCode.GatewayTimeOut, code, message, options)

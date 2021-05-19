@@ -1,24 +1,16 @@
 version: '3'
 services:
   knoow-data-storage-api-excercise:
-    container_name: knoow-data-storage-api-excercise
     build:
       context: ./
-      dockerfile: ./Dockerfile
-      args:
-        DATA_STORAGE_SYSTEM:
-        NODE_ENV:
-        PORT:
-        REDIS_HOST:
-        REDIS_PORT:
+      dockerfile: docker/knoow-data-storage-api-excercise/Dockerfile
     ports:
       - 3001:3001
     environment:
-      DATA_STORAGE_SYSTEM:
-      NODE_ENV: test
+      DATA_STORAGE_SYSTEM: 'redis'
+      NODE_ENV: local
       PORT: 3001
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
+      REDIS_URL: redis://redis
     links:
       - redis
     depends_on:
@@ -28,3 +20,17 @@ services:
     restart: always
     ports:
       - 6379:6379
+  test-runner:
+    build:
+      context: ./
+      dockerfile: docker/test-runner/Dockerfile
+    command: npm run test
+    environment:
+      DATA_STORAGE_SYSTEM: 'redis'
+      NODE_ENV: local
+      PORT: 3001
+      REDIS_URL: redis://redis
+    links:
+      - redis
+    depends_on:
+      - redis
