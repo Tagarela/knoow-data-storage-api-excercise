@@ -2,6 +2,7 @@
 
 ### Tech
  * [nodejs] 
+ * [redis] 
  
 ## Global Dependencies
 - node >= 11.15.0
@@ -26,7 +27,8 @@
 ### DOCUMENTATION
 swagger.yaml
 
-You may user this [swagger] service for parsing documentation
+You may use this [swagger] service for reading documentation
 
 [nodejs]: <https://nodejs.org/en/download/>
 [swagger]: <https://editor.swagger.io/>
+[redis]: <https://redis.io/>
