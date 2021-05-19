@@ -17,13 +17,16 @@
 
 ### TEST
 1. npm run test
-
+ 
 ### RUN PROJECT VIA DOCKER
-1. copy .env.example to .env
-2. npm install
-3. docker-compose build (npm run build)
-4. docker-compose up (npm run dev)
+1. npm run docker
 
-    *Note: For running test. Run docker and run test in separate tab 
+    *Note : this command should run test automatically
+
+### DOCUMENTATION
+swagger.yaml
+
+You may user this [swagger] service for parsing documentation
 
 [nodejs]: <https://nodejs.org/en/download/>
+[swagger]: <https://editor.swagger.io/>
