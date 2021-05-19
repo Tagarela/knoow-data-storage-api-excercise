@@ -7,7 +7,7 @@
   "main": "server.js",
   "scripts": {
     "build": "docker-compose build",
-    "dev": "docker-compose up",
+    "docker": "docker-compose up",
     "start": "nodemon app.js",
     "test": "jest test/test.js --detectOpenHandles",
     "test-watch": "jest --watch --notify --notifyMode=change test/test.js",
