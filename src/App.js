@@ -1,6 +1,7 @@
 const config = require('../src/config')
 const express = require('express')
 const router = require('./routes')
+const cors = require('cors')
 const { ErrorHandlerMiddlewareFactory } = require('./utils/middlewares/ErrorHandlerMiddlewareFactory')
 
 /**
@@ -12,9 +13,10 @@ class App {
    */
   static createApplication () {
     const application = express()
+    application.use(cors())
     application.set('port', config.port)
     application.set('mode', config.env)
-    application.use(express.json({ limit: '50mb' }))
+    application.use(express.json())
     application.use(router)
     application.use(ErrorHandlerMiddlewareFactory.errorHandler())
     return application

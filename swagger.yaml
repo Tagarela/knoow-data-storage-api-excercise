@@ -1,0 +1,206 @@
+swagger: "2.0"
+info:
+  version: 0.0.1
+  title: Data Storage Api
+  description: Documentation
+host: localhost:3001
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /data/{repository}:
+    put:
+      tags:
+        - Data Object
+      description: Upload Object
+      parameters:
+        - in: path
+          name: repository
+          type: string
+          required: true
+          description: repository name
+        - in: body
+          name: body
+          description: Object
+          required: true
+          schema:
+            $ref: '#/definitions/DataStoreObject'
+      responses:
+        201:
+          description: success
+          schema:
+            $ref: '#/definitions/ApiDataObjectResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+        500:
+          description: Internal Error
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+
+  /data/{repository}/{id}:
+    get:
+      tags:
+        - Data Object
+      description: Get Object
+      parameters:
+        - in: path
+          name: repository
+          type: string
+          required: true
+          description: repository name
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: id
+      responses:
+        201:
+          description: success
+          schema:
+            $ref: '#/definitions/ApiDataObjectResponse'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+        500:
+          description: Internal Error
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+
+    put:
+      tags:
+        - Data Object
+      description: Publish new version of Object
+      parameters:
+        - in: path
+          name: repository
+          type: string
+          required: true
+          description: repository name
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: id
+        - in: body
+          name: body
+          description: Object
+          required: true
+          schema:
+            $ref: '#/definitions/DataStoreObject'
+      responses:
+        201:
+          description: success
+          schema:
+            $ref: '#/definitions/ApiDataObjectResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+        500:
+          description: Internal Error
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+
+    delete:
+      tags:
+        - Data Object
+      description: Delete Object with all versions
+      parameters:
+        - in: path
+          name: repository
+          type: string
+          required: true
+          description: repository name
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: id
+      responses:
+        204:
+          description: success
+          schema:
+            $ref: '#/definitions/ApiDataObjectResponse'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+        500:
+          description: Internal Error
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+
+  /data/{repository}/{id}/{version}:
+    put:
+      tags:
+        - Data Object
+      description: Revert version of Object
+      parameters:
+        - in: path
+          name: repository
+          type: string
+          required: true
+          description: repository name
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: id
+        - in: path
+          name: version
+          type: string
+          required: true
+          description: version
+      responses:
+        201:
+          description: success
+          schema:
+            $ref: '#/definitions/ApiDataObjectResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+        500:
+          description: Internal Error
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+
+definitions:
+  ApiErrorResponse:
+    required:
+      - error
+    properties:
+      error:
+        type: object
+  ApiDataObjectResponse:
+    required:
+      - id
+    properties:
+      oid:
+        type: string
+        description: object id
+        example: 2ca9155b-7c8c-42a1-a4d4-49cedbe7a1db
+      size:
+        type: integer
+        description: object size
+        example: 12
+      version:
+        type: integer
+        description: object version
+        example: 1
+      data:
+        type: object
+        description: data object
+        example: {}
+  DataStoreObject:
+    type: object
+    properties:
+      name:
+        type: string
