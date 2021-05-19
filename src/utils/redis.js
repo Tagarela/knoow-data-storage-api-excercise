@@ -11,8 +11,9 @@ class RedisInstance {
   createClient () {
     const redisConfig = config.redisConfig
     const connection = {
-      host: redisConfig.host,
-      port: redisConfig.port,
+      // host: redisConfig.host,
+      // port: redisConfig.port,
+      url: redisConfig.url,
       retry_strategy: function (options) {
         if (options.error && options.error.code === 'ECONNREFUSED') {
           return new Error('The server refused the connection')
